@@ -3,26 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <title>Question List</title>
+    <link rel="stylesheet" type="text/css" href="static/style_list.css">
 </head>
 <body>
-    <h1>Hello</h1>
-    <table>
-        <tr>
-            {% for item in list_head %}
-                <th><h4><a href="/list?order_by={{ item }}&order_direction=asc">&#8593</a>{{ item }}<a href="/list?order_by={{ item }}&order_direction=desc">&#8595</a></h4></th>
+    <div class="header">
+        <h1>Question List</h1>
+    </div>
+    <div>
+        <table>
+            <tr class="table-header">
+                {% for item in list_head %}
+                    <th><h4><a href="/list?order_by={{ item }}&order_direction=asc">&#8593</a>{{ item }}<a href="/list?order_by={{ item }}&order_direction=desc">&#8595</a></h4></th>
+                {% endfor %}
+            </tr>
+            {% for data in data_list %}
+            <tr class="table-row">
+                <td class="id" align="center">{{ data['id'] }}</td>
+                <td class="title"><a class="title-link" href="/question/{{ data['id'] }}">{{ data['title'] }}</a></td>
+                <td class="sub-time" align="center">{{ data['submission_time'] }}</td>
+                <td class="vote" align="center">{{ data['vote_number'] }}</td>
+            </tr>
             {% endfor %}
-        </tr>
-        {% for data in data_list %}
-        <tr>
-            <td width="100" align="center">{{ data['id'] }}</td>
-            <td width="500"><a href="/question/{{ data['id'] }}">{{ data['title'] }}</a></td>
-            <td width="200" align="center">{{ data['submission_time'] }}</td>
-            <td width="100" align="center">{{ data['vote_number'] }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+        </table>
+    </div>
     {% if limit %}
-        <div id="list_all"><a href="/list">List all questions</a></div>
+        <div id="list_all"><a id="to-list-route" href="/list">List all questions</a></div>
     {% endif %}
 </body>
 </html>

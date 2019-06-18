@@ -1,0 +1,69 @@
+body {
+margin: 0;
+background: #B0B7BD
+}
+
+.header {
+background: #0A2342;
+color: white;
+padding: 20px 0
+}
+
+.header h1 {
+text-align: center
+}
+
+table {
+width: 100%
+}
+
+.table-header {
+background: #C81F32
+}
+
+.id {
+width: 10%;
+padding-top: 15px;
+color: #0A2342
+}
+
+.title {
+width: 50%;
+padding-top: 15px;
+}
+
+.title-link {
+color: #0A2342;
+text-decoration: none
+}
+
+.title-link:hover {
+color: #C81F32
+}
+
+.sub-time {
+width: 20%;
+padding-top: 15px;
+color: #0A2342
+}
+
+.vote {
+width: 20%;
+padding-top: 15px;
+color: #0A2342
+}
+
+#list_all {
+text-align: center;
+padding: 15px 0;
+}
+
+#to-list-route {
+text-decoration: none;
+color: #0A2342;
+text-transform: uppercase;
+}
+
+#to-list-route:hover {
+color: #C81F32
+}
