@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.path.dirname('image/')
+UPLOAD_FOLDER = os.path.dirname('static/image/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
@@ -21,7 +21,7 @@ def list_questions():
         data_list = data_manager.sql_display()
     else:
         limit = True
-        limit_number = '5'
+        limit_number = '3'
         data_list = data_manager.sql_display_limit(limit_number)
     for item in data_list:
         item['submission_time'] = item['submission_time']
@@ -81,6 +81,16 @@ def search():
         item['vote_number'] = int(item['vote_number'])
     list_head = ['id', 'title', 'submission_time', 'vote_number']
     return render_template('search.html', search_list=search_list, list_head=list_head)
+
+
+@app.route('/question/<question_id>')
+def display_question(question_id):
+    actual_question = data_manager.sql_display_question(question_id)
+    answer_list = data_manager.sql_display_answer(question_id)
+    comment_to_answer_list = data_manager.sql_display_comment_to_answer()
+    comments = data_manager.sql_get_question_comments(question_id)
+    return render_template('question.html', question_id=question_id, actual_question=actual_question,
+                           actual_answer=answer_list, comment_to_answer_list=comment_to_answer_list, comments=comments)
 
 
 if __name__ == '__main__':

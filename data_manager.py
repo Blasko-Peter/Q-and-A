@@ -37,3 +37,42 @@ def sql_search(cursor, keywords):
     cursor.execute(query, {'keyword': keywords})
     result = cursor.fetchall()
     return result
+
+
+@connection.connection_handler
+def sql_display_question(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM question 
+                    WHERE id = %(question_id)s;
+                    """, {'question_id': question_id})
+    display = cursor.fetchall()
+    return display
+
+
+@connection.connection_handler
+def sql_display_answer(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM answer 
+                    WHERE question_id = %(question_id)s ORDER BY submission_time DESC;
+                    """, {'question_id': question_id})
+    display = cursor.fetchall()
+    return display
+
+
+@connection.connection_handler
+def sql_display_comment_to_answer(cursor):
+    cursor.execute("""
+                    SELECT * FROM comment;
+                    """,)
+    display = cursor.fetchall()
+    return display
+
+
+@connection.connection_handler
+def sql_get_question_comments(cursor, question_id):
+    cursor.execute("""
+                    SELECT * From comment 
+                    WHERE question_id = %(question_id)s;
+                    """, {'question_id': question_id})
+    display = cursor.fetchall()
+    return display
