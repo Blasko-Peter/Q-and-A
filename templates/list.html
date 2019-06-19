@@ -9,6 +9,19 @@
     <div class="header">
         <h1>Question List</h1>
     </div>
+    <div class="nav">
+        <div class="nav-item">
+            <form id="add_question">
+                <button class="btn" formaction="add-question" type="submit">Add a question</button>
+            </form>
+        </div>
+        <div class="nav-item">
+            <form id="search" action="/search">
+                <input type="text" name="q">
+                <input class="btn" type="submit" value="Search">
+            </form>
+        </div>
+    </div>
     <div>
         <table>
             <tr class="table-header">
@@ -26,8 +39,10 @@
             {% endfor %}
         </table>
     </div>
-    {% if limit %}
-        <div id="list_all"><a id="to-list-route" href="/list">List all questions</a></div>
-    {% endif %}
+    <div>
+        {% if limit %}
+            <div id="list_all"><a id="to-list-route" href="/list">List all questions</a></div>
+        {% endif %}
+    </div>
 </body>
 </html>
