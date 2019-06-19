@@ -26,3 +26,14 @@ def sql_add(cursor, subtime, title, msg, img):
                       INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
                       VALUES (%s, 0, 0, %s, %s, %s);
     """, (subtime, title, msg, img))
+
+
+@connection.connection_handler
+def sql_search(cursor, keywords):
+    keywords = "%" + keywords + "%"
+    query = """SELECT id, title, submission_time, vote_number FROM question
+               WHERE title ILIKE %(keyword)s OR message ILIKE %(keyword)s OR id IN
+              (SELECT question_id FROM answer WHERE message ILIKE %(keyword)s)"""
+    cursor.execute(query, {'keyword': keywords})
+    result = cursor.fetchall()
+    return result

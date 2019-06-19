@@ -58,6 +58,31 @@ def add_new_question():
     return redirect('/')
 
 
+@app.route('/search')
+def search():
+    words = request.args.get('words')
+    keywords = words.split( )
+    goals = []
+    id_numbers = set()
+    for keyword in keywords:
+        result = data_manager.sql_search(keyword)
+        for item in result:
+            goals.append(item)
+            id_numbers.add(item['id'])
+    search_list = []
+    for number in id_numbers:
+        index = 0
+        for goal in goals:
+            if goal['id'] == number and index == 0:
+                search_list.append(goal)
+                index += 1
+    for item in search_list:
+        item['submission_time'] = item['submission_time']
+        item['vote_number'] = int(item['vote_number'])
+    list_head = ['id', 'title', 'submission_time', 'vote_number']
+    return render_template('search.html', search_list=search_list, list_head=list_head)
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,
