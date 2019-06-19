@@ -8,7 +8,7 @@ import time
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = os.path.dirname('static/image/')
+UPLOAD_FOLDER = os.path.dirname('static/images/')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
