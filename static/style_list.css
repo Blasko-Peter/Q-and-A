@@ -25,6 +25,10 @@ padding-left: 20px;
 padding-right: 20px;
 }
 
+.search {
+width: 175px
+}
+
 .btn {
 background: #0A2342;
 color: white;
@@ -42,7 +46,8 @@ width: 100%
 }
 
 .table-header {
-background: #C81F32
+background: #C81F32;
+color: #0A2342
 }
 
 .id {

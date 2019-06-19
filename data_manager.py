@@ -18,3 +18,11 @@ def sql_display_limit(cursor, limit):
                       ORDER BY submission_time DESC LIMIT %s ;""", str(limit))
     display = cursor.fetchall()
     return display
+
+
+@connection.connection_handler
+def sql_add(cursor, subtime, title, msg, img):
+    cursor.execute("""
+                      INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
+                      VALUES (%s, 0, 0, %s, %s, %s);
+    """, (subtime, title, msg, img))

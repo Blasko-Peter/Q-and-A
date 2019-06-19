@@ -1,9 +1,15 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import data_manager
 from operator import itemgetter
+import os
+import datetime
+import time
 
 
 app = Flask(__name__)
+
+UPLOAD_FOLDER = os.path.dirname('image/')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 
 @app.route('/')
@@ -28,6 +34,28 @@ def list_questions():
     if order_direction == 'desc':
         data_list.reverse()
     return render_template('list.html', data_list=data_list, list_head=list_head, limit=limit)
+
+
+@app.route('/add-question', methods=['GET'])
+def add_question():
+    return render_template('add_question.html')
+
+
+@app.route('/add-question', methods=['POST'])
+def add_new_question():
+    file = request.files['img']
+    if file:
+        file_image = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+        file.save(file_image)
+        file_image = file.filename
+    else:
+        file_image = None
+    subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+    title = request.form['title']
+    msg = request.form['msg']
+    img = file_image
+    data_manager.sql_add(subtime, title, msg, img)
+    return redirect('/')
 
 
 if __name__ == '__main__':
