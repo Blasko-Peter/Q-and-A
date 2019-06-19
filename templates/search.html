@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Search Keywords</title>
+    <link rel="stylesheet" type="text/css" href="static/style_search.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Search List</h1>
+    </div>
+    <div class="nav">
+        <div class="nav-item">
+            <form id="add_question">
+                <button class="btn" formaction="/" type="submit">Back to questions</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        <table>
+            <tr class="table-header">
+                {% for item in list_head %}
+                    <th><h4>{{ item }}</h4></th>
+                {% endfor %}
+            </tr>
+            {% for data in search_list %}
+            <tr class="table-row">
+                <td class="id" align="center">{{ data['id'] }}</td>
+                <td class="title"><a class="title-link" href="/question/{{ data['id'] }}">{{ data['title'] }}</a></td>
+                <td class="sub-time" align="center">{{ data['submission_time'] }}</td>
+                <td class="vote" align="center">{{ data['vote_number'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+body {
+margin: 0;
+background: white
+}
+
+.header {
+background: #0A2342;
+color: white;
+padding: 20px 0
+}
+
+.header h1 {
+text-align: center
+}
+
+.nav {
+background: #B0B7BD;
+padding: 20px 0;
+text-align: right
+}
+
+.nav-item {
+display: inline-block;
+padding-left: 20px;
+padding-right: 20px;
+}
+
+.btn {
+background: #0A2342;
+color: white;
+text-transform: uppercase;
+width: 175px
+}
+
+.btn:hover {
+background: white;
+color: #C81F32
+}
+
+table {
+width: 100%
+}
+
+.table-header {
+background: #C81F32;
+color: #0A2342
+}
+
+.id {
+width: 10%;
+padding-top: 15px;
+color: #0A2342
+}
+
+.title {
+width: 50%;
+padding-top: 15px;
+}
+
+.title-link {
+color: #0A2342;
+text-decoration: none
+}
+
+.title-link:hover {
+color: #C81F32
+}
+
+.sub-time {
+width: 20%;
+padding-top: 15px;
+color: #0A2342
+}
+
+.vote {
+width: 20%;
+padding-top: 15px;
+color: #0A2342
+}
