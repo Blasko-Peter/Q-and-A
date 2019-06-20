@@ -93,3 +93,38 @@ def sql_update(cursor, question_id, subtime, title, msg, img):
                       SET submission_time = %(subtime)s, view_number = '0', vote_number = '0', title = %(title)s, message = %(msg)s, image = %(img)s
                       WHERE id = %(question_id)s;
                 """, {'subtime': subtime, 'title': title, 'msg': msg, 'img': img, 'question_id': question_id})
+
+
+@connection.connection_handler
+def sql_post_answer(cursor, subtime, question_id, msg, img):
+    cursor.execute("""
+                    INSERT INTO answer (submission_time, vote_number, question_id, message, image)
+                    VALUES (%s, 0, %s, %s, %s);
+    """, (subtime, question_id, msg, img))
+
+
+@connection.connection_handler
+def sql_display_actual_answer(cursor, answer_id):
+    cursor.execute("""
+                    SELECT * FROM answer 
+                    WHERE id = %(answer_id)s;
+                    """, {'answer_id': answer_id})
+    display = cursor.fetchall()
+    return display
+
+
+@connection.connection_handler
+def sql_update_answer(cursor, answer_id, subtime, msg):
+    cursor.execute("""
+                    UPDATE answer
+                    SET submission_time = %(subtime)s, message = %(msg)s
+                    WHERE id = %(answer_id)s;
+    """, {'subtime': subtime, 'msg': msg, 'answer_id': answer_id})
+
+
+@connection.connection_handler
+def sql_delete_answer(cursor, answer_id):
+    cursor.execute("""
+                      DELETE FROM answer
+                      WHERE id = %(answer_id)s;
+                      """, {'answer_id': answer_id})
