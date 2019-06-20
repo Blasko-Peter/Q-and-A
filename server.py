@@ -93,6 +93,13 @@ def display_question(question_id):
                            actual_answer=answer_list, comment_to_answer_list=comment_to_answer_list, comments=comments)
 
 
+@app.route('/question/<question_id>/delete')
+def delete_question(question_id):
+    data_manager.sql_delete(question_id)
+    return redirect('/')
+
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,

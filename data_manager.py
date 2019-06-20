@@ -76,3 +76,11 @@ def sql_get_question_comments(cursor, question_id):
                     """, {'question_id': question_id})
     display = cursor.fetchall()
     return display
+
+
+@connection.connection_handler
+def sql_delete(cursor, id):
+    cursor.execute("""
+                      DELETE FROM question
+                      WHERE id = %(id)s;
+                      """, {'id': id})
