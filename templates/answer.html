@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Answer</title>
+    <link rel="stylesheet" type="text/css" href="/static/style_answer.css">
+</head>
+<body>
+    <div class="header">
+        <h1>{{ 'Update Answer' if actual_answer else 'Add Answer' }}</h1>
+    </div>
+    <div class="nav">
+        <div class="nav-item">
+            <form>
+                <button class="btn" formaction="/" type="submit">Back to questions</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        {% if not actual_answer %}
+        <form action="/question/{{ question_id }}/new-answer" method="POST" enctype="multipart/form-data">
+        {% elif actual_answer %}
+        <form action ="/answer/{{ actual_answer[0]['id'] }}/edit" method ="POST" enctype="multipart/form-data">
+        {% endif %}
+            <div class="center">
+                <textarea class="plus" rows="10" cols="50" id="answer" name="answer">{{ actual_answer[0]['message'] if actual_answer else '' }}</textarea>
+            </div>
+            <div class="center">
+                <button class="btn plus" type="submit">{{ 'Update Answer' if actual_answer else 'Add Answer' }}</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>

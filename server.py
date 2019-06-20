@@ -121,6 +121,39 @@ def edit_question(question_id):
         return redirect('/question/' + question_id)
 
 
+@app.route('/question/<question_id>/new-answer', methods=['GET', 'POST'])
+def post_answer(question_id):
+    if request.method == 'GET':
+        actual_question = data_manager.sql_display_question(question_id)
+        return render_template('answer.html', question_id=question_id, actual_question=actual_question)
+    if request.method == 'POST':
+        subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        new_question_id = question_id
+        msg = request.form['answer']
+        img = ''
+        data_manager.sql_post_answer(subtime, new_question_id, msg, img)
+        return redirect('/question/' + str(question_id))
+
+
+@app.route('/answer/<answer_id>/edit', methods=['GET', 'POST'])
+def edit_answer(answer_id):
+    if request.method == 'GET':
+        actual_answer = data_manager.sql_display_actual_answer(answer_id)
+        return render_template('answer.html', answer_id=answer_id, actual_answer=actual_answer)
+    if request.method == 'POST':
+        actual_question_id = str((data_manager.sql_display_actual_answer(answer_id))[0]['question_id'])
+        subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        msg = request.form['answer']
+        data_manager.sql_update_answer(answer_id, subtime, msg)
+        return redirect('/question/' + actual_question_id)
+
+
+@app.route('/answer/<question_id>/<answer_id>/delete')
+def delete_answer(question_id, answer_id):
+    data_manager.sql_delete_answer(answer_id)
+    return redirect('/question/' + question_id)
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,
