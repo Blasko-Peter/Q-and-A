@@ -61,7 +61,7 @@ def add_new_question():
 @app.route('/search')
 def search():
     words = request.args.get('words')
-    keywords = words.split( )
+    keywords = words.split(' ')
     goals = []
     id_numbers = set()
     for keyword in keywords:
@@ -98,6 +98,27 @@ def delete_question(question_id):
     data_manager.sql_delete(question_id)
     return redirect('/')
 
+
+@app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
+def edit_question(question_id):
+    question_data = data_manager.sql_display_question(question_id)
+    print(question_data)
+    if request.method == 'GET':
+        return render_template('add_question.html', question_data=question_data)
+    else:
+        try:
+            file = request.files['img']
+            file_image = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            file.save(file_image)
+            file_image = file.filename
+        except:
+            file_image = ''
+        subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        title = request.form['title']
+        msg = request.form['msg']
+        img = file_image
+        data_manager.sql_update(question_id, subtime, title, msg, img)
+        return redirect('/question/' + question_id)
 
 
 if __name__ == '__main__':

@@ -23,7 +23,7 @@ def sql_display_limit(cursor, limit):
 @connection.connection_handler
 def sql_add(cursor, subtime, title, msg, img):
     cursor.execute("""
-                      INSERT INTO question (submission_time, view_number, vote_number, title, message, images)
+                      INSERT INTO question (submission_time, view_number, vote_number, title, message, image)
                       VALUES (%s, 0, 0, %s, %s, %s);
     """, (subtime, title, msg, img))
 
@@ -84,3 +84,12 @@ def sql_delete(cursor, id):
                       DELETE FROM question
                       WHERE id = %(id)s;
                       """, {'id': id})
+
+
+@connection.connection_handler
+def sql_update(cursor, question_id, subtime, title, msg, img):
+    cursor.execute("""
+                      UPDATE question
+                      SET submission_time = %(subtime)s, view_number = '0', vote_number = '0', title = %(title)s, message = %(msg)s, image = %(img)s
+                      WHERE id = %(question_id)s;
+                """, {'subtime': subtime, 'title': title, 'msg': msg, 'img': img, 'question_id': question_id})
