@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Question List</title>
+    <link rel="stylesheet" type="text/css" href="/static/style_list.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Question List</h1>
+    </div>
+    <div class="nav">
+        <div class="nav-item">
+            <form id="add_question">
+                <button class="btn" formaction="add-question" type="submit">Add a question</button>
+            </form>
+        </div>
+        <div class="nav-item">
+            <form id="search" action="/search">
+                <input class="search" type="text" name="words">
+                <input class="btn" type="submit" value="Search">
+            </form>
+        </div>
+    </div>
+    <div>
+        <table>
+            <tr class="table-header">
+                {% for item in list_head %}
+                    <th><h4><a href="/list?order_by={{ item }}&order_direction=asc">&#8593</a>{{ item }}<a href="/list?order_by={{ item }}&order_direction=desc">&#8595</a></h4></th>
+                {% endfor %}
+            </tr>
+            {% for data in data_list %}
+            <tr class="table-row">
+                <td class="id" align="center">{{ data['id'] }}</td>
+                <td class="title"><a class="title-link" href="/question/{{ data['id'] }}">{{ data['title'] }}</a></td>
+                <td class="sub-time" align="center">{{ data['submission_time'] }}</td>
+                <td class="vote" align="center">{{ data['vote_number'] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div>
+        {% if limit %}
+            <div id="list_all"><a id="to-list-route" href="/list">List all questions</a></div>
+        {% endif %}
+    </div>
+</body>
+</html>
