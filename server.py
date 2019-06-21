@@ -207,6 +207,30 @@ def add_new_comment_to_answer(answer_id):
         return redirect('/question/' + actual_question_id)
 
 
+@app.route('/question/<question_id>/vote-up')
+def vote_up(question_id, type='+'):
+    data_manager.sql_qvote(type, "question", question_id)
+    return redirect('/question/' + question_id)
+
+
+@app.route('/question/<question_id>/vote-down')
+def vote_down(question_id, type='-'):
+    data_manager.sql_qvote(type, "question", question_id)
+    return redirect('/question/' + question_id)
+
+
+@app.route('/answer/<question_id>/<answer_id>/vote-up')
+def answer_vote(question_id, answer_id, type='+'):
+    data_manager.sql_avote(type, question_id, answer_id)
+    return redirect('/question/' + question_id)
+
+
+@app.route('/answer/<question_id>/<answer_id>/vote-down')
+def answer_vote_down(question_id, answer_id, type='-'):
+    data_manager.sql_avote(type, question_id, answer_id)
+    return redirect('/question/' + question_id)
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,
