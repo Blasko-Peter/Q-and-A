@@ -85,13 +85,18 @@ def search():
 
 @app.route('/question/<question_id>')
 def display_question(question_id):
-    data_manager.sql_update_view_number(question_id)
     actual_question = data_manager.sql_display_question(question_id)
     answer_list = data_manager.sql_display_answer(question_id)
     comment_to_answer_list = data_manager.sql_display_comment_to_answer()
     comments = data_manager.sql_get_question_comments(question_id)
     return render_template('question.html', question_id=question_id, actual_question=actual_question,
                            actual_answer=answer_list, comment_to_answer_list=comment_to_answer_list, comments=comments)
+
+
+@app.route('/question/<question_id>/view')
+def display_question_view(question_id):
+    data_manager.sql_update_view_number(question_id)
+    return redirect('/question/' + question_id)
 
 
 @app.route('/question/<question_id>/delete')

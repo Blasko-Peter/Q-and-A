@@ -32,7 +32,7 @@
             {% for data in data_list %}
             <tr class="table-row">
                 <td class="id" align="center">{{ data['id'] }}</td>
-                <td class="title"><a class="title-link" href="/question/{{ data['id'] }}">{{ data['title'] }}</a></td>
+                <td class="title"><a class="title-link" href="/question/{{ data['id'] }}/view">{{ data['title'] }}</a></td>
                 <td class="sub-time" align="center">{{ data['submission_time'] }}</td>
                 <td class="vote" align="center">{{ data['vote_number'] }}</td>
             </tr>
