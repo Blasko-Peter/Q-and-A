@@ -85,6 +85,7 @@ def search():
 
 @app.route('/question/<question_id>')
 def display_question(question_id):
+    data_manager.sql_update_view_number(question_id)
     actual_question = data_manager.sql_display_question(question_id)
     answer_list = data_manager.sql_display_answer(question_id)
     comment_to_answer_list = data_manager.sql_display_comment_to_answer()
@@ -102,7 +103,6 @@ def delete_question(question_id):
 @app.route('/question/<question_id>/edit', methods=['GET', 'POST'])
 def edit_question(question_id):
     question_data = data_manager.sql_display_question(question_id)
-    print(question_data)
     if request.method == 'GET':
         return render_template('add_question.html', question_data=question_data)
     else:

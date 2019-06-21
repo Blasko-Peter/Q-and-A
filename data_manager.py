@@ -96,6 +96,15 @@ def sql_update(cursor, question_id, subtime, title, msg, img):
 
 
 @connection.connection_handler
+def sql_update_view_number(cursor, question_id):
+    cursor.execute("""
+                      UPDATE question
+                      SET view_number = view_number + 1
+                      WHERE id = %(question_id)s;
+                """, {'question_id': question_id})
+
+
+@connection.connection_handler
 def sql_post_answer(cursor, subtime, question_id, msg, img):
     cursor.execute("""
                     INSERT INTO answer (submission_time, vote_number, question_id, message, image)
