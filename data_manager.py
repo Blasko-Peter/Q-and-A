@@ -128,3 +128,66 @@ def sql_delete_answer(cursor, answer_id):
                       DELETE FROM answer
                       WHERE id = %(answer_id)s;
                       """, {'answer_id': answer_id})
+
+
+@connection.connection_handler
+def sql_add_comment_to_question(cursor, question_id, message, submission_time):
+    cursor.execute("""
+                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+                    VALUES (%(question_id)s, NULL , %(message)s, %(submission_time)s, 0);
+    """, {'question_id': question_id, 'message': message, 'submission_time': submission_time})
+
+
+@connection.connection_handler
+def sql_comdel(cursor, comment_id):
+    cursor.execute("""
+                        DELETE FROM comment
+                        WHERE id = %(comment_id)s ;""", {'comment_id':comment_id})
+
+
+@connection.connection_handler
+def question_or_answer(cursor, comment_id):
+    cursor.execute("""
+                    SELECT question_id FROM comment WHERE id = %(comment_id)s;""",
+                   {'comment_id':comment_id})
+    display = cursor.fetchone()
+    return display
+
+
+@connection.connection_handler
+def get_question_id(cursor, comment_id):
+    cursor.execute("""
+                    SELECT answer.question_id FROM answer
+                    INNER JOIN comment
+                    ON answer.id = comment.answer_id
+                    WHERE comment.id = %(comment_id)s;
+                    """, {'comment_id':comment_id})
+    display = cursor.fetchone()
+    return display
+
+
+@connection.connection_handler
+def get_comment_data(cursor, comment_id):
+    cursor.execute("""
+                    SELECT * From comment 
+                    WHERE id = %(comment_id)s;
+                    """, {'comment_id': comment_id})
+    display = cursor.fetchall()
+    return display
+
+
+@connection.connection_handler
+def sql_comment_edit(cursor, comment_id, msg):
+    cursor.execute("""
+                    UPDATE comment
+                    SET message = %(msg)s, edited_count = edited_count + 1
+                    WHERE id = %(comment_id)s;
+    """, {'msg': msg, 'comment_id': comment_id})
+
+
+@connection.connection_handler
+def sql_add_comment_to_answer(cursor, answer_id, message, submission_time):
+    cursor.execute("""
+                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+                    VALUES (NULL, %(answer_id)s , %(message)s, %(submission_time)s, 0 );
+    """, {'answer_id': answer_id, 'message': message, 'submission_time': submission_time})
