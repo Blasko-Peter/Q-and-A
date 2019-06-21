@@ -154,6 +154,47 @@ def delete_answer(question_id, answer_id):
     return redirect('/question/' + question_id)
 
 
+@app.route('/question/<question_id>/new-comment', methods=['GET', 'POST'])
+def add_new_comment(question_id):
+    if request.method == 'GET':
+        return render_template('comment.html')
+    elif request.method == 'POST':
+        question_id = question_id
+        message = request.form['message']
+        subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        data_manager.sql_add_comment_to_question(question_id, message, subtime)
+        return redirect('/question/' + question_id)
+
+
+@app.route('/comments/<comment_id>/delete')
+def com_del(comment_id):
+    question_id = get_question_id(comment_id)
+    data_manager.sql_comdel(comment_id)
+    return redirect('/question/' + str(question_id))
+
+
+def get_question_id(comment_id):
+    index = data_manager.question_or_answer(comment_id)
+    if index['question_id'] == None:
+        question_id_list = data_manager.get_question_id(comment_id)
+        question_id = question_id_list['question_id']
+    else:
+        question_id = index['question_id']
+    return question_id
+
+
+@app.route('/comments/<comment_id>/edit', methods=['GET', 'POST'])
+def comment_edit(comment_id):
+    if request.method == 'GET':
+        comment_data = data_manager.get_comment_data(comment_id)
+        return render_template('comment.html', comment_data=comment_data)
+    else:
+        message=request.form['message']
+        data_manager.sql_comment_edit(comment_id,message)
+        question_id = get_question_id(comment_id)
+        return redirect('/question/' + str(question_id))
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,

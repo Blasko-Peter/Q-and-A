@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Comment</title>
+    <link rel="stylesheet" type="text/css" href="/static/style_comment.css">
+</head>
+<body>
+    <div class="header">
+        <h1>{{ 'Update Comment' if comment_data else 'Add Comment' }}</h1>
+    </div>
+    <div class="nav">
+        <div class="nav-item">
+            <form>
+                <button class="btn" formaction="/" type="submit">Back to questions</button>
+            </form>
+        </div>
+    </div>
+    <div>
+        {% if not comment_data %}
+        <div>
+            <form method="post">
+                <div class="center">
+                    <textarea class="plus" rows="10" cols="50" name="message"></textarea>
+                </div>
+                <div class="center">
+                    <input class="btn plus" type="submit" value="Add comment">
+                </div>
+            </form>
+        </div>
+        {% else %}
+        <div>
+            <form action="/comments/{{ comment_data[0]['id'] }}/edit" method = "post">
+                 <div class="center">
+                    <textarea class="plus" rows="10" cols="50" name="message">{{ comment_data[0]['message'] }}</textarea>
+                </div>
+                <div class="center">
+                    <input class="btn plus" type="submit" value="Update comment">
+                </div>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
