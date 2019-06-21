@@ -195,6 +195,18 @@ def comment_edit(comment_id):
         return redirect('/question/' + str(question_id))
 
 
+@app.route('/answer/<answer_id>/new-comment', methods=['GET', 'POST'])
+def add_new_comment_to_answer(answer_id):
+    if request.method == 'GET':
+        return render_template('comment.html', answer_id=answer_id)
+    elif request.method == 'POST':
+        actual_question_id = str((data_manager.sql_display_actual_answer(answer_id))[0]['question_id'])
+        message = request.form['message']
+        subtime = datetime.datetime.fromtimestamp(time.time()).strftime('%Y-%m-%d %H:%M:%S')
+        data_manager.sql_add_comment_to_answer(answer_id, message, subtime)
+        return redirect('/question/' + actual_question_id)
+
+
 if __name__ == '__main__':
     app.run(host='127.0.0.1',
             port=5000,

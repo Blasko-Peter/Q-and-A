@@ -183,3 +183,11 @@ def sql_comment_edit(cursor, comment_id, msg):
                     SET message = %(msg)s, edited_count = edited_count + 1
                     WHERE id = %(comment_id)s;
     """, {'msg': msg, 'comment_id': comment_id})
+
+
+@connection.connection_handler
+def sql_add_comment_to_answer(cursor, answer_id, message, submission_time):
+    cursor.execute("""
+                    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
+                    VALUES (NULL, %(answer_id)s , %(message)s, %(submission_time)s, 0 );
+    """, {'answer_id': answer_id, 'message': message, 'submission_time': submission_time})
