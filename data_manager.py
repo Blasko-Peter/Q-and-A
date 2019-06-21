@@ -200,3 +200,37 @@ def sql_add_comment_to_answer(cursor, answer_id, message, submission_time):
                     INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
                     VALUES (NULL, %(answer_id)s , %(message)s, %(submission_time)s, 0 );
     """, {'answer_id': answer_id, 'message': message, 'submission_time': submission_time})
+
+
+@connection.connection_handler
+def sql_qvote(cursor, way, table, id):
+    if way == "+":
+        quarry = sql.SQL("""
+                            UPDATE {}
+                            SET vote_number = vote_number + 1  
+                            WHERE id = %(id)s     
+                """).format(sql.Identifier(table))
+        cursor.execute(quarry, {'id': id})
+    else:
+        quarry = sql.SQL("""
+                            UPDATE {}
+                            SET vote_number = vote_number - 1  
+                            WHERE id = %(id)s
+                        """).format(sql.Identifier(table))
+        cursor.execute(quarry, {'id': id})
+
+
+@connection.connection_handler
+def sql_avote(cursor, way, question_id, answer_id):
+    if way == "+":
+        quarry = """
+                    UPDATE answer SET vote_number = vote_number + 1
+                    WHERE question_id = %s AND id = %s
+        """
+        cursor.execute(quarry, (question_id, answer_id))
+    else:
+        quarry = """
+                    UPDATE answer SET vote_number = vote_number - 1
+                    WHERE question_id = %s AND id = %s
+        """
+        cursor.execute(quarry, (question_id, answer_id))
