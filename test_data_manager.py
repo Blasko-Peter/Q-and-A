@@ -66,5 +66,65 @@ class TestDataManager(unittest.TestCase):
         self.assertEqual(result, 2)
 
 
+    def test_sql_display_comment_to_answer1(self):
+        data = data_manager.sql_display_comment_to_answer()
+        result = len(data)
+        self.assertIsNotNone(result)
+
+    # now there are 3 comment to answers
+    def test_sql_display_comment_to_answer2(self):
+        data = data_manager.sql_display_comment_to_answer()
+        result = len(data)
+        self.assertEqual(result, 3)
+
+    # this is true only in the basic case
+    def test_sql_get_question_comments0(self):
+        data = data_manager.sql_get_question_comments(0)
+        result = len(data)
+        self.assertEqual(result, 1)
+
+    # this is true only in the basic case
+    def test_sql_get_question_comments1(self):
+        data = data_manager.sql_get_question_comments(1)
+        result = len(data)
+        self.assertEqual(result, 0)
+
+    # this is true only in the basic case
+    def test_sql_get_question_comments2(self):
+        data = data_manager.sql_get_question_comments(2)
+        result = len(data)
+        self.assertEqual(result, 0)
+
+
+    def test_sql_display_actual_answer(self):
+        data = data_manager.sql_display_actual_answer(1)
+        result = len(data)
+        self.assertEqual(result, 1)
+
+
+    def test_question_or_answer1(self):
+        data = data_manager.question_or_answer(1)
+        result = data['question_id']
+        self.assertEqual(result, 0)
+
+
+    def test_question_or_answer2(self):
+        data = data_manager.question_or_answer(2)
+        result = data['question_id']
+        self.assertEqual(result, None)
+
+
+    def test_get_question_id(self):
+        data = data_manager.get_question_id(2)
+        result = data['question_id']
+        self.assertEqual(result, 1)
+
+
+    def test_get_comment_data(self):
+        data = data_manager.get_comment_data(1)
+        result = len(data)
+        self.assertEqual(result, 1)
+
+
 if __name__ == "__main__":
     unittest.main()
